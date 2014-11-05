@@ -1,10 +1,13 @@
 package passivePack;
 
-public class Book {
+public class Book extends Loot{
 	private String name;
 	private String author;
 	private int year;
-	private int weight;
+	
+	public String getName() {
+		return this.name;
+	}	
 	
 	public boolean isBook(String bookName){
 		return (this.name.equals(bookName));
@@ -18,9 +21,8 @@ public class Book {
 		this.weight = Integer.parseInt(parts[3]);
 		
 	}
-	public int getWeight(){
-	return this.weight;
+	
+	public String toString(){
+		return ("The book: "+this.name+" by "+this.author+" ("+this.year+")");
 	}
-	
-	
 }

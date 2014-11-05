@@ -1,0 +1,18 @@
+Linjär Algebra och Geometri 1;Vad kan matriser göra för dig?;5
+Linjär Algebra och Geometri 2;Grafikprogrammerarens Bibel;5
+Operativsystem 1;Why Unix is the Best, part 1;5
+Operativsysrem 2;Why Unix is the Best, part 2;5
+Människa- Datainteraktion;The correct way to manipulate others;5
+Robotik 1;A View on Robotics;5
+Robotik 2;An Analysis of Robotics;5
+Robotik 3;To make the Ironman Suit;5
+Flertrådig Programmering;Konsten att göra flera saker samtidigt;10
+Spelprogrammering 1;Barnen är lyckliga nu;10
+Spelprogrammering 2;Grafikprogrammering och varför du inte vill göra det;10
+Spelprogrammering 3;Battlefield 5 och du;10
+Tvåvariabelsanalys;Double the Contents, Double the Fun!;10
+Modellering av automater och logik i IT-system;Logik och Flowsharts för nybörjare;10
+Ekonomi;Konsten att göra rika rikare;5
+Human brain and input systems;Dictatorship through Cerebral Manipulation;5
+Funktionell Programmering;Puts the "Fun" in "Functional Programming";5
+Imperativ och Objektorienterad Programmeringsmetodik;Så du tror du har kännt smärta?;5

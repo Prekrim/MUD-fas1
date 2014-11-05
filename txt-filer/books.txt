@@ -1,0 +1,19 @@
+Vad kan matriser göra för dig?;Mats Ris;1912;2
+Grafikprogrammerarens Bibel;Erik Warhär;1996;3
+Why Unix is the Best, part 1;Lin Xu;1972;1
+Why Unix is the Best, part 2;Lin Xu;1973;2
+The correct way to manipulate others;Protskiv Putin;1984;2
+A View on Robotics;Q;1995;1
+An Analysis of Robotics;Lucius Fox;1999;1
+To make the Ironman Suit;Tony Stark;2014;3
+Konsten att göra flera saker samtidigt;Hermione Granger;2003;2
+Barnen är lyckliga nu;Astra Senica;1977;1
+Grafikprogrammering och varför du inte vill göra det;Joakim Strömstedt;2008;3
+Battlefield 5 och du;Major Hanks;2010;2
+Double the Contents, Double the Fun!;Inger-Lina Gebrar;1971;1
+Logik och Flowsharts för nybörjare;Göran Persson;2005;1
+Konsten att göra rika rikare;Robin Hood;1994;2
+Dictatorship through Cerebral Manipulation;Agent Smith;2009;3
+Puts the "Fun" in "Functional Programming";Dave Shark;1976;3
+Så du tror du har kännt smärta?;Tobias Wrigstad;2014;3
+
