@@ -11,20 +11,18 @@ import worldPack.Room;
 public class Student extends Creature{
 
     private int HP;
-    protected Inventory backpack;
+    protected Inventory backpack = new Inventory();
     private List<Course> finishedCourses = new ArrayList<Course>();
     private List<Course> activeCourses = new ArrayList<Course>();
 
     public Student(String name, int HP, Room location){
 	super(name, location);
 	this.HP = HP;
-	this.backpack = new Inventory();
     }
     
     public Student(String name, Room location){
     	super(name, location);
     	this.HP = 60;
-    	this.backpack = new Inventory();
     }
     
     public void addCourse(Course newCourse){
@@ -38,6 +36,10 @@ public class Student extends Creature{
 
     public Inventory getBackpack(){
     	return this.backpack;
+    }
+    
+    public String toString(){
+    	return this.getName();
     }
 }
 

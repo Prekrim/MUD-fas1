@@ -3,8 +3,11 @@ package worldPack;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.io.IOException;
 
+import passivePack.Book;
+import passivePack.Key;
 import exceptionPack.WorldException;
 import ioPack.Reader;
 
@@ -70,7 +73,30 @@ public class World{
 		//Stop - - - - - -
 		return targetRoom;
 	}
+
+	private int numberOfLockedDoors() {
+		int numberOfLocks = 0;
+		for(Room room : this.rooms){
+			numberOfLocks += room.getLocks();
+		}
+		return numberOfLocks;
+	}
 	
+	public void createKeys() {
+		int keyAmount =  (int) ((this.numberOfLockedDoors() * 1.5 )/2);
+		Random randomizer = new Random();
+		for(int i = 0;i < keyAmount;i++){
+			Key newKey = new Key();
+			int numberOfRooms = this.rooms.size();
+			int target = randomizer.nextInt(numberOfRooms-1);
+			Room targetRoom = this.rooms.get(target);
+			targetRoom.addKey(newKey);
+		}
+	}
+
+	public List<Room> getRooms() {
+		return this.rooms;
+	}
 }
 
 

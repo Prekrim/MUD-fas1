@@ -1,13 +1,16 @@
 package passivePack;
 
-public class Key {
-	private int weight;
+public class Key extends Loot{
 	
 	public Key(){
 	this.weight = 1;
 	}
+		
+	public String toString(){
+		return ("A key");
+	}
 	
-	public int getWeight(){
-	return this.weight;
+	public boolean equals(Key key){
+		return (key != null);
 	}
 }
