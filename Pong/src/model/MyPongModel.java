@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.Random;
 import java.util.Set;
+import java.awt.geom.*;
+import java.awt.geom.Point2D.Double;
 
 import model.Input.Dir;
 
@@ -13,7 +15,7 @@ public class MyPongModel implements PongModel{
 	private int leftBarHeight;
 	private int rightBarHeight;
 	private Point ballPos;
-	private Point direction;
+	private Point2D.Double direction;
 	private double velocity;
 	private int leftScore;
 	private int rightScore;
@@ -86,33 +88,23 @@ public class MyPongModel implements PongModel{
 		//Update Ball
 		this.ballPos.x += this.direction.x * this.velocity;
 		this.ballPos.y += this.direction.y * this.velocity;
-		
+
 		// Hit BarKey
 		if (ballPos.x <= 150 && ballPos.y < this.leftBarKeyPos + 120 + this.leftBarHeight/2 && 
 				ballPos.y > this.leftBarKeyPos - 120 - this.leftBarHeight/2){
-			//this.direction.x = -this.direction.x;
-			
-			
-			double angle = Math.atan(direction.y/direction.x);
-			if(this.direction.y <= 0 && this.direction.x >= 0){
-				angle = Math.atan(direction.y/direction.x);
-			} else if(this.direction.y > 0 && this.direction.x >= 0){
-				angle = 2*Math.PI + Math.atan(direction.y/direction.x);
-			} else if(this.direction.y <= 0 && this.direction.x < 0){
-				angle = Math.PI + Math.atan(direction.y/direction.x);
-			} else if(this.direction.y > 0 && this.direction.x < 0){
-				angle = Math.PI + Math.atan(direction.y/direction.x);
-			}
-			long difference = (ballPos.y-leftBarKeyPos);
-			//if (difference < 0){
-				this.direction.y = (int) (100 * Math.sin(angle * difference));
-				this.direction.x = (int) (100 * Math.cos(angle * difference));
-			/*} else if( difference > 0){
-				
-			} else {
-				this.direction.y = -this.direction.y;
-			}*/
-			
+                    
+                        if (this.leftBarKeyPos == this.ballPos.y) {
+                            this.direction.x = -this.direction.x;  
+                        } else if (this.leftBarKeyPos <= this.ballPos.y){
+                            double diff = (this.ballPos.y - this.leftBarKeyPos) / (this.leftBarHeight/2.0)*10 + 1;
+                            double inAngle = Math.PI - Math.asin(this.direction.y);
+                            
+                            double outAngle = (Math.PI - inAngle) * ((Math.signum(this.direction.y) < 0) ? Math.pow(diff, Math.signum(this.direction.y)) : Math.pow(diff, Math.signum(this.direction.y)) * 4); 
+                            this.direction.x = Math.cos(outAngle);
+                            this.direction.y = Math.sin(outAngle);
+                        } else {
+                        	
+                        }
 			if (this.velocity <= 5){
 				this.velocity += 0.5;
 			}
@@ -171,13 +163,13 @@ public class MyPongModel implements PongModel{
 			i = -1;
 		}
 		
-		this.direction = new Point(0,0);
-		this.direction.y = (int) (100 * Math.sin(Math.PI * degrees/180));
-		this.direction.x = (int) (100 * Math.cos(Math.PI * degrees/180) * i);
+		this.direction = new Point2D.Double(0,0);
+		this.direction.y = (Math.sin(Math.PI * degrees/180));
+		this.direction.x = (Math.cos(Math.PI * degrees/180) * i);
 		if(direction.y == Math.PI/2 || direction.y == -Math.PI/2){
-			direction.y = (int) Math.PI;
+			direction.y = Math.PI;
 		}
-		this.velocity = 1;
+		this.velocity = 100;
 
 	}
 
