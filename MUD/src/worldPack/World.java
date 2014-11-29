@@ -6,8 +6,14 @@ import java.util.List;
 import java.util.Random;
 import java.io.IOException;
 
+import creaturePack.Creature;
+import creaturePack.Player;
+import creaturePack.Sphinx;
 import passivePack.Book;
+import passivePack.Direction;
 import passivePack.Key;
+import exceptionPack.DoorException;
+import exceptionPack.InputException;
 import exceptionPack.WorldException;
 import ioPack.Reader;
 
@@ -26,7 +32,7 @@ public class World{
 		return this.name;
 	}
 		
-	public void generateWorld(String path){
+	private void generateWorld(String path){
 		Reader worldReader = new Reader(path);
 		String[] worldArray = null;
 		try {
@@ -90,13 +96,43 @@ public class World{
 			int numberOfRooms = this.rooms.size();
 			int target = randomizer.nextInt(numberOfRooms-1);
 			Room targetRoom = this.rooms.get(target);
-			targetRoom.addKey(newKey);
+			targetRoom.addLoot(newKey);
 		}
 	}
 
 	public List<Room> getRooms() {
 		return this.rooms;
 	}
+
+	public void moveCreatures(int walkTurn) {
+		List<Creature> movingCreatures = new ArrayList<>();
+		for(Room room : rooms){
+			for(Creature creature : room.getCreatures()) {
+				if(!(creature instanceof Player || creature instanceof Sphinx)){
+					movingCreatures.add(creature);
+				}
+			}
+		}
+		for(Creature creature : movingCreatures){
+			Random rand = new Random();
+			if(walkTurn % creature.getMovementSpeed() == 0){
+				Direction direction;
+				try {
+					direction = new Direction(rand.nextInt(4));
+					creature.walk(direction);
+				} catch (InputException e) {
+					e.printStackTrace();
+					System.exit(1);
+				} catch (WorldException e) {
+					// Walking into the wall
+				} catch (DoorException e) {
+					// Walking into a locked door
+				}
+			}
+		}
+	}
+	
+
 }
 
 

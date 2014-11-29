@@ -20,11 +20,12 @@ public class Room{
     private List<Creature> creatures = new ArrayList<Creature>();
     private String[] data;
 
-    public Room(String name, List<Door> doors, List<Loot> loot, List<Creature> creatures){
+    public Room(String name, List<Door> doors, List<Loot> loot, List<Creature> creatures, String[] data){
 	this.name = name;
 	this.doors = doors;
 	this.loot = loot;
 	this.creatures = creatures;
+	this.data = data;
     }
     
     public Room(String raw){
@@ -72,7 +73,6 @@ public class Room{
     			targetDoor = this.getDoorFacing(direction);
     			return targetDoor.getDestination();
     		} catch (WorldException e){
-    			// TODO Auto-generated catch block
     			e.printStackTrace();
     			System.exit(1);
     		}
@@ -84,6 +84,9 @@ public class Room{
     	return this.doors;
     }
     public void addDoors(List<Room> rooms) throws WorldException{
+    	if(this.data.length < 9){
+    		throw new WorldException("Insufficient data");
+    	}
     	for(int i = 1;i <=4;i++){
     		String roomName = this.data[i];
     		if (!roomName.equals("X")){
@@ -112,11 +115,6 @@ public class Room{
     		}
     	}
     }
-
-	public void addKey(Key newKey) {
-		this.loot.add(newKey);
-	}
-    
 	public void addCreature(Creature newCreature) {
 		this.creatures.add(newCreature);
 		
@@ -151,5 +149,18 @@ public class Room{
 
 	public List<Creature> getCreatures() {
 		return this.creatures;
+	}
+	
+	public Creature getCreature(String name) throws WorldException{
+		for (Creature creature: this.creatures){
+			if (creature.getName().equalsIgnoreCase(name)){
+				return creature;
+			}
+		}
+		throw new WorldException("No such creature in room");
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 }

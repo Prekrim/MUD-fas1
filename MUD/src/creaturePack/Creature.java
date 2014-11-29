@@ -1,5 +1,6 @@
 package creaturePack;
 
+import inputPack.Conversation;
 import passivePack.Direction;
 import exceptionPack.DoorException;
 import exceptionPack.WorldException;
@@ -10,12 +11,13 @@ public abstract class Creature{
     // Initial Values
     private String name;
     protected Room location;
+	private int movementSpeed;
  
     // Constructor
-    public Creature(final String name, Room location){
+    public Creature(final String name, Room location, int movementSpeed){
 	this.name = name;
 	this.location = location;
-	
+	this.movementSpeed = movementSpeed;
     }
     
     public void walk(Direction direction) throws WorldException, DoorException{
@@ -38,5 +40,13 @@ public abstract class Creature{
     public String getName(){
     	return this.name;
     }
+    
+    public String lookUpon(){
+    	return "Not implemented yet\n";
+    }
+
+	public int getMovementSpeed() {
+		return this.movementSpeed;
+	}
 }
 

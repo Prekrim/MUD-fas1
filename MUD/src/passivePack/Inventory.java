@@ -5,6 +5,7 @@ import java.util.List;
 
 import worldPack.Room;
 import exceptionPack.DoorException;
+import exceptionPack.InputException;
 import exceptionPack.InventoryException;
 
 public class Inventory {
@@ -13,6 +14,10 @@ public class Inventory {
 	
 	public Inventory(){
 		
+	}
+	
+	public int getCurrentCapacity(){
+		return this.capacity;
 	}
 	
 	public void add(Loot loot) throws InventoryException{
@@ -69,11 +74,13 @@ public class Inventory {
 	public String toString(){
 		int keys = 0;
 		String returnString = "";
+		int i = 1;
 		for (Loot loot: this.loot){
 			if (loot.getClass().equals(Key.class)){
 				keys++;
 			}else{
-			returnString += loot.toString() + "\n";
+			returnString += "[" +i+"] " + loot.toString() + "\n";
+			i++;
 			}
 		}
 		if (keys != 0){
@@ -89,6 +96,31 @@ public class Inventory {
 			}
 		}
 		throw new InventoryException("No key in Inventory");
+	}
+	
+	public Book getBook(String name) throws InputException{
+		for (Loot loot : this.loot){
+			if (loot instanceof Book){
+				Book targetBook = (Book) loot;
+				if (targetBook.getName().equals(name)){
+					return targetBook;
+				}
+			}
+		}
+		throw new InputException("No such book in inventory");
+	}
+
+	public Book getBook(int bookIndex) throws InputException {
+		int i = 1;
+		for (Loot loot : this.loot){
+			if (loot instanceof Book){
+				if(i == bookIndex){
+					return (Book)loot;
+				}
+				i++;
+			}
+		}
+		throw new InputException("Index out of bounds");
 	}
 
 }

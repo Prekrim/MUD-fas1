@@ -8,25 +8,33 @@ import java.util.List;
 import java.util.Random;
 
 import creaturePack.*;
+import exceptionPack.InventoryException;
 import exceptionPack.WorldException;
 import passivePack.*;
 
 public class Universe {
 	private World world;
-	private List<String> names = new ArrayList<String>();
-	private List<Book> books = new ArrayList<Book>();
-	private List<Course> courses = new ArrayList<Course>();
-	private List<Student> students = new ArrayList<Student>();
-	private List<Teacher> teachers = new ArrayList<Teacher>();
+	private List<String> names = new ArrayList<>();
+	private List<Book> books = new ArrayList<>();
+	private List<Course> courses = new ArrayList<>();
+	private List<Student> students = new ArrayList<>();
+	private List<Teacher> teachers = new ArrayList<>();
+	private List<Question> questions = new ArrayList<>();
 	
-	public Universe(String worldName, String worldPath, String bookPath, String coursePath, String namePath){
+	public Universe(String worldName, String worldPath, String bookPath, String coursePath, String namePath, String questionPath){
 		this.world = new World(worldName, worldPath);
 		this.generateNames(namePath);
 		this.generateBooks(bookPath);
 		this.generateCourses(coursePath);
+		this.generateQuestions(questionPath);
 		this.generateKeys();
 		this.generateStudents();
-		
+		this.generateTeachers();
+		this.generateSphinx();
+	}
+	
+	public List<Course> getCourses(){
+		return this.courses;
 	}
 	
 	public World getWorld(){
@@ -103,15 +111,22 @@ public class Universe {
 			Student newStudent = new Student(name, targetRoom);
 			newStudent.getRoom().addCreature(newStudent);
 			
-			if (this.courses.size() < i + 1){
+			if (this.courses.size() <= i){
 				i = 0;
 			}
 			Course targetCourse = this.courses.get(i);
 			newStudent.addCourse(targetCourse);
+			try {
+				newStudent.getBackpack().add(targetCourse.getBook());
+			} catch (InventoryException e) {
+				System.out.println(e.toString());
+				System.exit(1);
+			}
 			newStudent.finishCourse(targetCourse);
-			if (this.courses.size() == i + 1){
+			i++;
+			if (this.courses.size() <= i){
 				i = 0;
-			}else{target++;}
+			}
 			targetCourse = this.courses.get(i);
 			
 			newStudent.addCourse(targetCourse);
@@ -147,6 +162,12 @@ public class Universe {
 		this.world.createKeys();
 		}
 	
+	public void generateSphinx(){
+		Room targetRoom = this.getRoom("Holken");
+		Sphinx theSphinx = new Sphinx("Sphinx", targetRoom);
+		targetRoom.addCreature(theSphinx);
+	}
+	
 	public Player createPlayer(String name, String location){
 		Room currentRoom = this.getRoom(location);
 		Player newPlayer = new Player(name, currentRoom);		
@@ -154,16 +175,57 @@ public class Universe {
 		return newPlayer;
 	}
 	
-	public void createStudent(String name, int HP,String location){
-	Room currentRoom = this.getRoom(location);
-	Student newStudent = new Student(name, HP, currentRoom);
-	currentRoom.addCreature(newStudent);
+	public void generateQuestions(String path){
+		Reader questionReader = new Reader(path);
+		String[] questionArray=null;
+		try {
+			questionArray = questionReader.openFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		for(int i = 0;i < questionArray.length-1;i++){
+			String[] questionParts = questionArray[i].split(";");
+			String courseName = questionParts[0];
+			Course targetCourse = null;
+			for(Course course : courses){
+				if(course.getName().equals(courseName)){
+					targetCourse = course;
+				}
+			}
+			if (targetCourse == null) { 
+				System.out.println("Could not find course");
+				System.exit(1);
+			}
+			String[] answers = java.util.Arrays.copyOfRange(questionParts, 2, 5);
+			Question newQuestion = new Question(targetCourse, questionParts[1], answers);
+			this.questions.add(newQuestion);
+		}
 	}
 	
-	public void createTeacher(String name, String course, String location){
-	Room currentRoom = this.getRoom(location);
-	Teacher newTeacher = new Teacher(name, course, currentRoom);
-	currentRoom.addCreature(newTeacher);
+	public void generateTeachers(){
+		int teachers = courses.size();
+		Random randomizer = new Random();
+		
+		for (int i = 0; teachers > 0; i++){
+			int numberOfRooms = this.world.getRooms().size();
+			int target = randomizer.nextInt(numberOfRooms-1);
+			Room targetRoom = this.world.getRooms().get(target);
+			String name = this.names.get(0);
+			this.names.remove(0);
+			
+			Question targetQuestion = this.questions.get(i);
+			Course targetCourse = null;
+			for(Course course : this.courses){
+				if(targetQuestion.getCourse().equals(course)){
+					targetCourse = course;
+				}
+			}
+			
+			Teacher newTeacher = new Teacher(name, targetCourse ,targetRoom, targetQuestion);
+			newTeacher.getRoom().addCreature(newTeacher);
+			this.teachers.add(newTeacher);
+			teachers--;
+		}
 	}
-	
 }

@@ -1,0 +1,18 @@
+Linjär Algebra och Geometri 1;Why can't you derivate a philosophy major?;Because they have no function;Because they have no determined value;Because the slope of their career curve is always flat
+Linjär Algebra och Geometri 2;How many musicians does it take to screw a light bulb?;Infinite, they all pass out high before actually achieveing anything;None, the act is to difficult to comprehend (when are we ever going to use this knowlege in real life!?);1, after the first are bloodied for trying to screw a lightbulb the rest of them are too discuraged to try
+Operativsystem 1;Is the Unix based systems the best in the world?;Yes, it is;No, it is a homemade piece of trash;It depends on what you are looking for in a OS
+Operativsystem 2;1;2;3;4
+Människa- Datainteraktion;1;2;3;4
+Robotik 1;1;2;3;4
+Robotik 2;1;2;3;4
+Robotik 3;1;2;3;4
+Flertrådig Programmering;1;2;3;4
+Spelprogrammering 1;What should the AAA studios focus on when working on a new game;Fish AI!;Fancy graphics that makes the game not run on 90% of the current gaming PCs;Make sure the game is utilizing underdeveloped gadgets that makes it unplayable
+Spelprogrammering 2;Who would win in a fight between Superman and Son Goku;Superman;Goku;The amount of information lost about the circumstances of this fight for it to actually take place makes this question irrelevant and impossible to answer
+Spelprogrammering 3;Is the right answers to the questions in this game randomized at the beginning?;Yes;Yes;Yes
+Tvåvariabelsanalys;You have a triangle bound by the points P1=(1,0,0), P2=(4,2,8), P3=(0,0,7). This triangle is then thrown out a window with the fligth speed of an unladen swallow, find x;Dear math, solve your own damn problems;x <-- found it;An African or European swallow?
+Modellering av automater och logik i IT-system;1;2;3;4
+Ekonomi;In this cow example, what is the preffered model for your private company?;A FRENCH CORPORATION. You have two cows. You go on strike, organise a riot, and block the roads, because you want three cows;A JAPANESE CORPORATION. You have two cows. You redesign them so they are one-tenth the size of an ordinary cow and produce twenty times the milk. You then create a clever cow cartoon image called ‘Cowkimon’ and market it worldwide;AN INDIAN CORPORATION. You have two cows. You worship them.
+Human brain and input systems;1;2;3;4
+Funktionell Programmering;What searching mechanism is a good choice for searching a binary tree?;Breath First;Depth First;AWTSD (A Well Trained Search Dog)
+Imperativ och Objektorienterad Programmeringsmetodik;Is it ok to fail someone on a course after they have already passed?;Yes, because I am an ass;Yes, because you must remeber everything we tell you;No, because you have already learned it once and should be able to brush up on it IF the need would arise

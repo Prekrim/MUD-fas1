@@ -25,4 +25,8 @@ public class Book extends Loot{
 	public String toString(){
 		return ("The book: "+this.name+" by "+this.author+" ("+this.year+")");
 	}
+
+	public String getAuthor() {
+		return this.author;
+	}
 }

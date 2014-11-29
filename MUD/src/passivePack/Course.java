@@ -26,5 +26,25 @@ public class Course {
 		}
 		throw new WorldException("Couldn't find book in list");
 	}
+
+
+	public String getName() {
+		return this.name;
+	}
 	
+	public boolean equals(Course course){
+		return (this.name.equals(course.name));
+	}
+	
+	public int getHP(){
+		return this.HP;
+	}
+	
+	public Book getBook(){
+		return this.litterature;
+	}
+	
+	public String toString(){
+		return this.name + ", " + this.HP + " HP";
+	}
 }

@@ -1,10 +1,14 @@
 package creaturePack;
 
+import inputPack.Conversation;
+
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import exceptionPack.*;
 import passivePack.Book;
+import passivePack.Course;
 import passivePack.Direction;
 import passivePack.Key;
 import passivePack.Loot;
@@ -14,7 +18,7 @@ import worldPack.Room;
 public class Player extends Student{
 	
 	public Player(String name, Room location) {
-		super(name, 60, location);
+		super(name, 60, location, 1);
 		
 	}
 	
@@ -60,18 +64,9 @@ public class Player extends Student{
 		System.out.println("In the room you see:");
 		List<Creature> creatureList = this.location.getCreatures();
 		for (Creature creature: creatureList){
-			if(this.equals(creature)){
-				
-			}
-			else if(creature instanceof  Student){
-				System.out.println("A student named " + creature);
-				something = true;
-			}else if(creature instanceof Teacher){
-				System.out.println("A teacher named " + creature);
-				something = true;
-			}else{
-				System.out.println(creature);
-				something = true;
+			if (creature.equals(this)){}
+			else{
+				System.out.print(creature.lookUpon());	
 			}
 		}
 		
@@ -101,6 +96,7 @@ public class Player extends Student{
 					try {
 						this.backpack.add(loot);
 						this.location.removeLoot(loot);
+						System.out.println("Picked up " + loot);
 					} catch (InventoryException e) {
 						System.out.println("Not enough space in backpack");
 					}
@@ -109,10 +105,11 @@ public class Player extends Student{
 			}
 		} else if (target.equals("book")){
 			for (Loot loot: this.location.getLoot()){
-				if(loot instanceof passivePack.Book){
+				if(loot instanceof Book){
 					try {
 						this.backpack.add(loot);
 						this.location.removeLoot(loot);
+						System.out.println("picked up " + loot);
 					} catch (InventoryException e) {
 						System.out.println("Not enough space in backpack");
 					}
@@ -121,14 +118,28 @@ public class Player extends Student{
 			}
 		} else if(target.equals("all")){
 			int stop = this.location.getLoot().size();
+			int keys = 0;
 			for (int i = 0;i < stop;i++){
 				try {
-					this.backpack.add(this.location.getLoot().get(0));
-					this.location.removeLoot(this.location.getLoot().get(0));
+					Loot loot = this.location.getLoot().get(0);
+					this.backpack.add(loot);
+					if (loot instanceof Key){
+						keys++;
+					}else {
+						System.out.println("picked up " + loot);
+					}
+					this.location.removeLoot(loot);
 				} catch (InventoryException e) {
+					if (keys > 0){
+						System.out.println("picked up " + keys + " key(s)");
+					}
 					System.out.println("Not enough space in backpack");
 					break;
 				}
+				
+			}
+			if (keys > 0){
+				System.out.println("picked up " + keys + " key(s)");
 			}
 		} else {
 			for (Loot loot: this.location.getLoot()){
@@ -138,6 +149,7 @@ public class Player extends Student{
 						try {
 							this.backpack.add(book);
 							this.location.removeLoot(book);
+							System.out.println("picked up " + book);
 						} catch (InventoryException e) {
 							System.out.println("Not enough space in backpack");
 						}
@@ -148,5 +160,20 @@ public class Player extends Student{
 			System.out.println("There is no such item in "+this.location);
 		}
 	}
+	
+	public void speak(Creature target, Scanner userInput) throws GameStateException{
+		Conversation newConversation = new Conversation(this, target, userInput);
+		newConversation.speak();
+	}
+
+	public void enroll(Course course) throws InputException{
+		if (this.getFinishedCourses().contains(course) || this.getActiveCourses().contains(course)){
+			throw new InputException("Already enrolled");
+		} else{
+			this.addCourse(course);
+		}
+	}
+
+
 }
 	
