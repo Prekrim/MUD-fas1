@@ -23,6 +23,8 @@ public class MyPongModel implements PongModel{
 	private String message;
 	private int leftAI;
 	private int rightAI;
+	private String rightPlayer;
+	private String leftPlayer;
 	
 	public MyPongModel(String leftPlayer, String rightPlayer) {
 		this.fieldSize = new Dimension(12000,7000);
@@ -34,10 +36,16 @@ public class MyPongModel implements PongModel{
 		this.leftAI = 100000;
 		this.rightAI = 100000;
 		this.resetBall();
+		this.leftPlayer = leftPlayer;
+		this.rightPlayer = rightPlayer;
 			}
+	private void moveBall() {
+		this.ballPos.x += this.direction.x * this.velocity;
+		this.ballPos.y -= this.direction.y * this.velocity;
+	}
 
 	private	void ai(double barSpeed) {
-			final int delay = 3000;
+			final int delay = 10000;
 			if(this.ballPos.y < this.leftBarKeyPos && this.leftBarKeyPos >= this.leftBarHeight/2 && this.leftAI >= delay){
 				this.leftBarKeyPos -= barSpeed;
 			}
@@ -50,6 +58,27 @@ public class MyPongModel implements PongModel{
 			if(this.ballPos.y > this.rightBarKeyPos && this.rightBarKeyPos < -this.rightBarHeight/2 + this.fieldSize.height && this.rightAI >= delay){
 				this.rightBarKeyPos += barSpeed;
 			}		
+	}
+	
+	private double checkAngle(double angle, BarKey side){
+		double shift = 0.5;
+		angle = (angle % (2 *Math.PI) < 0) ? angle + 2 *Math.PI : angle;
+		if(side.equals(BarKey.LEFT))
+		{
+			if(angle < Math.PI && angle > Math.PI / 2 - shift) {
+				angle = Math.PI/2 - shift;
+			} else if(angle > Math.PI && angle < Math.PI*3/2 + shift){
+				angle = Math.PI *3/2 + shift;
+			}
+			
+		} else {
+			if(angle > 0 && angle < Math.PI / 2 + shift) {
+				angle = Math.PI / 2 + shift;
+			} else if(angle < (2 * Math.PI) && angle > Math.PI*3/2 -shift){
+				angle = Math.PI*3/2 - shift;
+			}
+		}
+		return angle;
 	}
 	
 	public void compute(Set<Input> input, long delta_t){
@@ -86,35 +115,61 @@ public class MyPongModel implements PongModel{
 		this.rightAI += delta_t;
 		this.ai(barSpeed);
 		//Update Ball
-		this.ballPos.x += this.direction.x * this.velocity;
-		this.ballPos.y += this.direction.y * this.velocity;
+		this.moveBall();
 
 		// Hit BarKey
 		if (ballPos.x <= 150 && ballPos.y < this.leftBarKeyPos + 120 + this.leftBarHeight/2 && 
 				ballPos.y > this.leftBarKeyPos - 120 - this.leftBarHeight/2){
-                    
-                        if (this.leftBarKeyPos == this.ballPos.y) {
-                            this.direction.x = -this.direction.x;  
-                        } else if (this.leftBarKeyPos <= this.ballPos.y){
-                            double diff = (this.ballPos.y - this.leftBarKeyPos) / (this.leftBarHeight/2.0)*10 + 1;
-                            double inAngle = Math.PI - Math.asin(this.direction.y);
-                            
-                            double outAngle = (Math.PI - inAngle) * ((Math.signum(this.direction.y) < 0) ? Math.pow(diff, Math.signum(this.direction.y)) : Math.pow(diff, Math.signum(this.direction.y)) * 4); 
-                            this.direction.x = Math.cos(outAngle);
-                            this.direction.y = Math.sin(outAngle);
-                        } else {
-                        	
-                        }
-			if (this.velocity <= 5){
-				this.velocity += 0.5;
+			this.ballPos.x = 151;
+			if (this.leftBarKeyPos == this.ballPos.y) {
+				this.direction.x = -this.direction.x;  
+			} else if (this.leftBarKeyPos <= this.ballPos.y){
+				double diff = (this.ballPos.y - this.leftBarKeyPos) / (this.leftBarHeight/2.0)*(Math.PI/4);
+				double inAngle = Math.PI - Math.asin(this.direction.y);
+				double outAngle = Math.PI - inAngle - diff;
+				// Check maximum outAngle
+				outAngle = this.checkAngle(outAngle,BarKey.LEFT);
+				this.direction.x = Math.cos(outAngle);
+				this.direction.y = Math.sin(outAngle);
+			}
+			else {
+				double diff = (this.leftBarKeyPos - this.ballPos.y) / (this.leftBarHeight/2.0)*(Math.PI/4);
+				double inAngle = Math.PI - Math.asin(this.direction.y);
+				double outAngle = Math.PI - inAngle + diff;
+				// Check maximum outAngle
+				outAngle = this.checkAngle(outAngle,BarKey.LEFT);
+				this.direction.x = Math.cos(outAngle);
+				this.direction.y = Math.sin(outAngle);
+			}
+			if (this.velocity <= 500){
+				this.velocity *= 1.2;
 			}
 		}
 		
-		if (ballPos.x >= this.fieldSize.width - 150 && ballPos.y < this.rightBarKeyPos + 120 + this.rightBarHeight/2 && 
+		if (this.ballPos.x >= this.fieldSize.width - 150 && ballPos.y < this.rightBarKeyPos + 120 + this.rightBarHeight/2 && 
 				ballPos.y > this.rightBarKeyPos - 120 - this.rightBarHeight/2){
-			this.direction.x = -this.direction.x;
-			if (this.velocity <= 5){
-				this.velocity += 0.5;
+			this.ballPos.x = this.fieldSize.width - 151;
+			if (this.rightBarKeyPos == this.ballPos.y) {
+				this.direction.x = -this.direction.x;  
+			} else if (this.rightBarKeyPos <= this.ballPos.y){
+				double diff = (this.ballPos.y - this.rightBarKeyPos) / (this.rightBarHeight/2.0)*(Math.PI/4);
+				double inAngle = Math.asin(this.direction.y);
+				double outAngle = Math.PI - inAngle + diff;
+				//Check maximum outAngle
+				outAngle = this.checkAngle(outAngle,BarKey.RIGHT);
+				this.direction.x = Math.cos(outAngle);
+				this.direction.y = Math.sin(outAngle);
+			}
+			else {
+				double diff = (this.rightBarKeyPos - this.ballPos.y) / (this.rightBarHeight/2.0)*(Math.PI/4);
+				double inAngle = Math.asin(this.direction.y);
+				double outAngle = Math.PI - inAngle - diff;
+				outAngle = this.checkAngle(outAngle,BarKey.RIGHT);
+				this.direction.x = Math.cos(outAngle);
+				this.direction.y = Math.sin(outAngle);
+			}
+			if (this.velocity <= 500){
+				this.velocity *= 1.2;
 			}
 		}
 		
@@ -139,12 +194,20 @@ public class MyPongModel implements PongModel{
 		}
 		if (ballPos.x > this.fieldSize.width && !(ballPos.y < this.rightBarKeyPos + this.rightBarHeight/2 && 
 				ballPos.y > this.rightBarKeyPos - this.rightBarHeight/2)){
-			
 			this.leftScore++;
 			this.rightBarHeight += 100;
 			this.resetBall();
 		}
-		
+		if(leftScore >= 10){
+			message = (leftPlayer + " Wins!");
+			leftScore = 0;
+			rightScore = 0;
+		}
+		if(rightScore >= 10){
+			message = (rightPlayer + " Wins!");
+			leftScore = 0;
+			rightScore = 0;
+		}
 	}
 
     private void resetBall() {
