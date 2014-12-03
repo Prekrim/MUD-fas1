@@ -2,9 +2,18 @@ package passivePack;
 
 import exceptionPack.InputException;
 
+/**
+ * Defines directions to the West, North, East and South
+ *
+ */
 public class Direction {
 	private int direction;
 	
+	/** Constructs a Direction by using an integer.
+	 * 0-3 is north-west, respectively.
+	 * @param direction The desired cardinal direction.
+	 * @throws InputException If the integer falls outside {0,3}.
+	 */
 	public Direction(int direction) throws InputException{
 		if (direction < 4 && direction >= 0){
 		this.direction = direction;
@@ -13,6 +22,11 @@ public class Direction {
 		}
 	}
 	
+	/** Constructs a Direction by using a string.
+	 * The direction is specified by the strings "north", "east", "south" and "west".
+	 * @param direction The desired cardinal direction.
+	 * @throws InputException If the string does not match a specified direction.
+	 */
 	public Direction(String direction) throws InputException{
 		switch(direction){
     	case "north":
@@ -31,6 +45,9 @@ public class Direction {
     		throw new InputException("Invalid direction");
     	}
 	}
+	/** Gets the string representation of a given direction.
+	 * @return The string representation.
+	 */
 	public String getDirection(){
     	switch(this.direction){
     	case 0:
@@ -47,9 +64,15 @@ public class Direction {
     	return "";
 	}
 	
-	public boolean equals(Direction direction){
+	/** Checks if the given direction is equal to this direction.
+	 * @param direction The compared object.
+	 * @return True if direction is of type Direction and faces the same way as this, else false.
+	 */
+	public boolean equals(Object direction){
 		if(direction == null){ return false; }
-		if (this.direction == direction.direction){return true;}
+		if(! (direction instanceof Direction)){return false;}
+		Direction dir = (Direction) direction;
+		if (this.direction == dir.direction){return true;}
 		else{return false;}
 		}
 	
@@ -57,6 +80,9 @@ public class Direction {
 		return this.getDirection();
 	}
 
+	/** Gets the opposite cardinal direction to this direction.
+	 * @return The opposite direction.
+	 */
 	public Direction oppositeDirection() {
 		switch (this.toString()){
 		case "North":

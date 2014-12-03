@@ -10,6 +10,11 @@ import creaturePack.Player;
 import exceptionPack.GameStateException;
 import worldPack.Universe;
 
+/**
+ * 
+ * @author Jonas & Viktor
+ *
+ */
 public class Main {
 	
 	public boolean running = true;
