@@ -24,7 +24,7 @@ public class Sphinx extends Creature{
 		return (student.getHp() >= 180);
 	}
 
-    /*
+    /**
      * Specializes the lookUpon function inherited from Creature. Returns a string representation of the sphinx.
      * @return The string representation of the sphinx. 
      */
