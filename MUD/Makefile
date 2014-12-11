@@ -1,16 +1,18 @@
 CC = javac
 FILES = find ./src/*/*.java
-TESTFILES = find ./test/*/*.java
+TESTFILES = find ./test/*/*.java | find ./src/*/*.java
 
 run:
-	cd src/
-	java Main.class
+	java -cp ./src/ Main
 MUD:
 	$(FILES) | xargs $(CC) ./src/Main.java
 clear:
+	find ./bin/*.class | xargs rm -f
+	find ./src/*.class | xargs rm -f
 	find ./bin/*/*.class | xargs rm -f
 	find ./src/*/*.class | xargs rm -f
-	rm -f ./src/Main.class
-tests: MUD
-	$(TESTFILES) | xargs $(CC)
+	find ./test/*/*.class | xargs rm -f
+tests:
+	$(TESTFILES) | xargs $(CC) -cp junit-4.*.jar
+	# find ./test/creaturePackTest/*.class | java -cp ./test/creaturePackTest
 .PHONY: tests
