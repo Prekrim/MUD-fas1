@@ -2,11 +2,11 @@ CC = javac
 FILES = find ./src/*/*.java
 TESTFILES = find ./test/*/*.java
 
-run: MUD
-	java ./src/Main
+run:
+	cd src/
+	java Main.class
 MUD:
 	$(FILES) | xargs $(CC) ./src/Main.java
-	$(CC) ./src/Main.java
 clear:
 	find ./bin/*/*.class | xargs rm -f
 	find ./src/*/*.class | xargs rm -f

@@ -4,7 +4,7 @@ Note that the packages have to be preserved as they are.
 The .txt files in resource can be changed to make new maps and such but the program may crash if you are not careful.
 You can test the code if you have JUnit with "make tests" or eclipse's built-in JUnit.
 
-The program is run with the commando java "./bin/Main.class" or "java -jar ./bin/MUD.jar".
+The program is run with the commando java "./bin/Main.class".
 
 The goals completed with this excercise:
 B4
