@@ -82,11 +82,14 @@ public class MyPongModel implements PongModel{
 	}
 	
 	public void compute(Set<Input> input, long delta_t){
-		/*
-		 * 
-		 * 
-		 * 
-		*/
+		this.moveBall();
+		updateBarkey(input, delta_t);
+		hitBarkey();
+		updateScore();
+		
+	}
+
+	private void updateBarkey(Set<Input> input, long delta_t) {
 		//Update BarKey
 		final double barSpeed = 5000/delta_t;
 		for(Input nextInput : input){
@@ -114,9 +117,11 @@ public class MyPongModel implements PongModel{
 		this.leftAI += delta_t;
 		this.rightAI += delta_t;
 		this.ai(barSpeed);
-		//Update Ball
-		this.moveBall();
+	}
 
+	
+	
+	private void hitBarkey(){
 		// Hit BarKey
 		if (ballPos.x <= 150 && ballPos.y < this.leftBarKeyPos + 120 + this.leftBarHeight/2 && 
 				ballPos.y > this.leftBarKeyPos - 120 - this.leftBarHeight/2){
@@ -180,11 +185,13 @@ public class MyPongModel implements PongModel{
 		if (ballPos.y <= 0){
 			this.direction.y = -this.direction.y;
 		}
-		
-		//this.leftBarKeyPos = this.ballPos.y;
-		//this.rightBarKeyPos = this.ballPos.y;
-		
-		// Score
+	}
+	
+	
+	
+	
+	
+	private void updateScore() {
 		if (ballPos.x < 0 && !(ballPos.y < this.leftBarKeyPos + this.leftBarHeight/2 && 
 				ballPos.y > this.leftBarKeyPos - this.leftBarHeight/2)){
 			
@@ -208,8 +215,9 @@ public class MyPongModel implements PongModel{
 			leftScore = 0;
 			rightScore = 0;
 		}
-	}
 
+	}
+	
     private void resetBall() {
     	this.leftBarKeyPos = this.fieldSize.height/2;
 		this.rightBarKeyPos = this.fieldSize.height/2;
