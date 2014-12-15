@@ -39,12 +39,13 @@ public class MyPongModel implements PongModel{
 		this.leftPlayer = leftPlayer;
 		this.rightPlayer = rightPlayer;
 			}
+	
 	private void moveBall() {
 		this.ballPos.x += this.direction.x * this.velocity;
 		this.ballPos.y -= this.direction.y * this.velocity;
 	}
 
-	private	void ai(double barSpeed) {
+	private void ai(double barSpeed) {
 			final int delay = 10000;
 			if(this.ballPos.y < this.leftBarKeyPos && this.leftBarKeyPos >= this.leftBarHeight/2 && this.leftAI >= delay){
 				this.leftBarKeyPos -= barSpeed;
@@ -91,6 +92,9 @@ public class MyPongModel implements PongModel{
 
 	private void updateBarkey(Set<Input> input, long delta_t) {
 		//Update BarKey
+		if(delta_t == 0){
+			return;
+		}
 		final double barSpeed = 5000/delta_t;
 		for(Input nextInput : input){
 			if(nextInput.dir.equals(Input.Dir.UP) && nextInput.key.equals(BarKey.LEFT) &&
