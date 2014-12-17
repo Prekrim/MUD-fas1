@@ -22,10 +22,34 @@
 ;; later for more customizations!
 ;;
 
+;; =======
+;; System
+;; =======
+;; Changes yes or no to y or n
+(defalias 'yes-or-no-p 'y-or-no-p)
+
+;; Save minibuffer
+(savehist-mode 1)
+(setq history-length 100)
+
+;; Smooth scrolling Maaatherfaa***rs
+(setq redisplay-dont-pause t
+  scroll-margin 1
+  scroll-step 1
+  scroll-conservatively 10000
+  scroll-preserve-screen-position 1)
 
 ;; ===========
 ;; Appearance
 ;; ===========
+;; Fullscreen on start
+
+
+;; Display time in mode-line
+(setq display-time t
+      display-time-24hr-format t)
+;; (setq display-time-format "%H:%M")
+(display-time)
 
 ;; Disable the menu bar (2013-08-20)
 (menu-bar-mode -1)
@@ -39,14 +63,18 @@
 ;; Turn off annoying splash screen (2013-08-20)
 (setq inhibit-splash-screen t)
 
+;; Redline unwanted spaces
+(setq-default show-trailing-whitespace t)
+
 ;; Set which colors to use (2013-08-20)
 ;; You can see a list of all the available colors by checking the
 ;; variable "color-name-rgb-alist" (Type "C-h v color-name-rgb-alist
 ;; <RET>"). Most normal color names work, like black, white, red,
 ;; green, blue, etc.
- (set-background-color "gray10")
- (set-foreground-color "whitesmoke")
- (set-cursor-color "peachpuff")
+(set-background-color "gray10")
+(set-foreground-color "whitesmoke")
+(set-cursor-color "peachpuff")
+(set-face-attribute 'region nil :background "#555")
 
 ;; Set a custom color theme (2013-08-20)
 ;; NB! Needs Emacs 24.X!
@@ -86,7 +114,7 @@
 
 ;; Save-place (2013-08-20)
 ;; Remember the cursor position when you close a file, so that you
-;; start with the cursor in the same position when opening it again 
+;; start with the cursor in the same position when opening it again
 (setq save-place-file "~/.emacs.d/saveplace")
 (setq-default save-place t)
 (require 'saveplace)
@@ -139,10 +167,11 @@
 (add-hook 'c-mode-hook  'my-tab-fix)
 (add-hook 'sh-mode-hook 'my-tab-fix)
 (add-hook 'emacs-lisp-mode-hook 'my-tab-fix)
+(add-hook 'java-mode-hook 'my-tab-fix)
 
-;; Trailing whitespace
-(setq-default show-trailing-whitespace t)
-;;Comment uncomment region
+;; Comment uncomment region
 (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
-;;also copies to x clipboard
+(global-set-key (kbd "C-c u") 'uncomment-region)
+
+;; also copies to x clipboard
 (setq x-select-enable-clipboard t)
